@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Erişim Hesaplama</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h2>Instagram Erişim Hesaplama</h2>
+    <label for="totalReach">Toplam Erişim Sayısını Girin:</label>
+    <input type="number" id="totalReach" placeholder="Toplam Erişim Sayısı">
+    
+    <label for="followersPercent">Takipçi Yüzdesini Girin:</label>
+    <input type="number" id="followersPercent" placeholder="Takipçi Yüzdesi">
+    
+    <label for="nonFollowersPercent">Takipçi Olmayan Yüzdesini Girin:</label>
+    <input type="number" id="nonFollowersPercent" placeholder="Takipçi Olmayan Yüzdesi">
+    
+    <button onclick="calculate()">Hesapla</button>
+    
+    <div class="result" id="result">
+        <p>Takipçiler: <span id="followers"></span> kişi</p>
+        <p>Takipçi Olmayanlar: <span id="nonFollowers"></span> kişi</p>
+    </div>
+
+    <script>
+        function calculate() {
+            // Kullanıcıdan alınan verileri al
+            const totalReach = document.getElementById('totalReach').value;
+            const followersPercent = document.getElementById('followersPercent').value;
+            const nonFollowersPercent = document.getElementById('nonFollowersPercent').value;
+
+            // Yüzdeleri sayılara dönüştür
+            const followers = totalReach * (followersPercent / 100);
+            const nonFollowers = totalReach * (nonFollowersPercent / 100);
+
+            // Sonuçları ekrana yazdır
+            document.getElementById('followers').innerText = Math.round(followers);
+            document.getElementById('nonFollowers').innerText = Math.round(nonFollowers);
+        }
+    </script>
+</body>
+</html>
