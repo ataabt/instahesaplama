@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Insta İstatistik Hesaplayıcı</title>
+    <title>Insta İstatistik</title>
     <style>
         :root {
             --bg-color: #000000;
@@ -17,100 +17,75 @@
         * { box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 20px;
+            padding: 0;
             display: flex;
             justify-content: center;
-            /* Mobilde üstten biraz boşluk bırakıp aşağı doğru uzasın */
-            align-items: flex-start; 
+            align-items: center; /* Tam ortalar */
             min-height: 100vh;
         }
 
         .container {
             background: var(--card-bg);
-            padding: 40px 25px; /* İç boşluklar artırıldı */
+            /* Ekranın %90'ını kapla komutu */
+            width: 90vw !important; 
+            max-width: 500px;
+            padding: 30px 20px;
             border-radius: 15px;
             border: 1px solid var(--border-color);
-            width: 100%;
-            /* Mobilde çok küçük durmaması için genişliği artırdık */
-            max-width: 500px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            margin-top: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 35px;
-            font-weight: 700;
-            font-size: 1.8rem; /* Başlık büyütüldü */
+            margin-bottom: 25px;
+            font-size: 24px; /* Sabit büyük yazı */
         }
 
         label {
             display: block;
-            margin-bottom: 12px;
-            font-size: 1.1rem; /* Etiketler büyütüldü */
-            color: #efefef;
+            margin-bottom: 8px;
+            color: #ccc;
+            font-size: 16px;
         }
 
         input {
             width: 100%;
-            padding: 18px; /* Giriş kutusu yüksekliği artırıldı */
-            margin-bottom: 25px;
+            padding: 16px; /* Kutuları büyütür */
+            margin-bottom: 20px;
             background-color: var(--input-bg);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: 8px;
             color: white;
-            font-size: 1.2rem; /* Yazı boyutu büyütüldü */
+            font-size: 18px; /* Yazılan rakamları büyütür */
             outline: none;
-        }
-
-        input:focus {
-            border-color: var(--accent-color);
         }
 
         button {
             width: 100%;
-            padding: 20px; /* Buton büyütüldü */
+            padding: 18px;
             background-color: var(--accent-color);
             color: white;
             border: none;
-            border-radius: 10px;
-            cursor: pointer;
+            border-radius: 8px;
+            font-size: 18px;
             font-weight: bold;
-            font-size: 1.3rem; /* Buton yazısı büyütüldü */
             margin-top: 10px;
         }
 
-        button:active {
-            transform: scale(0.98);
-        }
-
         #result {
-            margin-top: 35px;
-            padding-top: 25px;
+            margin-top: 25px;
+            padding-top: 20px;
             border-top: 1px solid var(--border-color);
             text-align: center;
         }
-
-        .result-item {
-            margin-bottom: 15px;
-            font-size: 1.3rem; /* Sonuç yazıları büyütüldü */
-        }
-
-        .count {
-            font-weight: bold;
-            color: var(--accent-color);
-            font-size: 1.6rem; /* Sayısal sonuçlar vurgulandı */
-        }
-
-        .info {
-            font-size: 0.9rem;
-            color: #8e8e8e;
-            margin-top: 20px;
-        }
+        
+        .result-item { font-size: 18px; margin-bottom: 10px; }
+        .count { font-size: 22px; font-weight: bold; color: var(--accent-color); }
+        .info { font-size: 12px; color: #777; margin-top: 15px; }
     </style>
 </head>
 <body>
@@ -140,7 +115,7 @@
         const resultDiv = document.getElementById('result');
 
         if (isNaN(views)) {
-            resultDiv.innerHTML = "Lütfen görüntüleme sayısını girin.";
+            resultDiv.innerHTML = "<p style='color:orange'>Lütfen sayı girin.</p>";
             return;
         }
 
@@ -148,9 +123,9 @@
         const nonFollowersCount = Math.round((nfPercent / 100) * views) || 0;
 
         resultDiv.innerHTML = `
-            <div class="result-item">Takipçiler: <span class="count">${followersCount}</span> kişi</div>
-            <div class="result-item">Takipçi Olmayanlar: <span class="count">${nonFollowersCount}</span> kişi</div>
-            <div class="info">Sayısal veriler girilen yüzdelere göre en yakın tam sayıya yuvarlanmıştır.</div>
+            <div class="result-item">Takipçiler: <span class="count">${followersCount}</span></div>
+            <div class="result-item">Takipçi Olmayan: <span class="count">${nonFollowersCount}</span></div>
+            <div class="info">Sonuçlar yuvarlanmıştır.</div>
         `;
     }
 </script>
