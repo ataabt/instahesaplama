@@ -3,89 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Insta İstatistik</title>
+    <title>Insta Hesaplama</title>
     <style>
-        :root {
-            --bg-color: #000000;
-            --card-bg: #121212;
-            --text-color: #ffffff;
-            --accent-color: #0095f6;
-            --input-bg: #262626;
-            --border-color: #363636;
-        }
-
-        * { box-sizing: border-box; }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: #000000;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-items: center; /* Tam ortalar */
             min-height: 100vh;
         }
 
         .container {
-            background: var(--card-bg);
-            /* Ekranın %90'ını kapla komutu */
-            width: 90vw !important; 
-            max-width: 500px;
-            padding: 30px 20px;
-            border-radius: 15px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            width: 100%;
+            padding: 25px;
+            box-sizing: border-box; /* Kenarların taşmasını engeller */
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 25px;
-            font-size: 24px; /* Sabit büyük yazı */
+            font-size: 2rem; /* Çok büyük başlık */
+            margin-bottom: 40px;
+            color: #fff;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            color: #ccc;
-            font-size: 16px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: #a8a8a8;
+            margin-left: 5px;
         }
 
         input {
             width: 100%;
-            padding: 16px; /* Kutuları büyütür */
-            margin-bottom: 20px;
-            background-color: var(--input-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: white;
-            font-size: 18px; /* Yazılan rakamları büyütür */
-            outline: none;
+            padding: 22px; /* Parmakla basması kolay büyük kutular */
+            margin-bottom: 30px;
+            background: #262626;
+            border: 1px solid #363636;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.3rem; /* Yazılar büyük */
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            border-color: #0095f6;
+            background-color: #1a1a1a;
         }
 
         button {
             width: 100%;
-            padding: 18px;
-            background-color: var(--accent-color);
-            color: white;
+            padding: 25px;
+            background: #0095f6;
+            color: #fff;
             border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
+            border-radius: 12px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            cursor: pointer;
             margin-top: 10px;
         }
 
         #result {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
             text-align: center;
+            border-top: 1px solid #333;
+            padding-top: 30px;
         }
-        
-        .result-item { font-size: 18px; margin-bottom: 10px; }
-        .count { font-size: 22px; font-weight: bold; color: var(--accent-color); }
-        .info { font-size: 12px; color: #777; margin-top: 15px; }
+
+        .count {
+            color: #0095f6;
+            font-weight: bold;
+            font-size: 2rem; /* Sonuç rakamları devasa */
+        }
+
+        .result-item {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -94,15 +93,15 @@
     <h2>Erişim Hesapla</h2>
     
     <label>Toplam Görüntüleme</label>
-    <input type="number" id="views" placeholder="Örn: 87" inputmode="numeric">
+    <input type="number" id="views" placeholder="0" inputmode="numeric">
     
     <label>Takipçi Oranı (%)</label>
-    <input type="number" id="fPercent" step="0.1" placeholder="Örn: 97.7" inputmode="decimal">
+    <input type="number" id="fPercent" placeholder="97.7" inputmode="decimal">
     
     <label>Takipçi Olmayan Oranı (%)</label>
-    <input type="number" id="nfPercent" step="0.1" placeholder="Örn: 2.3" inputmode="decimal">
+    <input type="number" id="nfPercent" placeholder="2.3" inputmode="decimal">
     
-    <button onclick="calculate()">Hesapla</button>
+    <button onclick="calculate()">HESAPLA</button>
 
     <div id="result"></div>
 </div>
@@ -112,20 +111,16 @@
         const views = parseFloat(document.getElementById('views').value);
         const fPercent = parseFloat(document.getElementById('fPercent').value);
         const nfPercent = parseFloat(document.getElementById('nfPercent').value);
-        const resultDiv = document.getElementById('result');
+        const res = document.getElementById('result');
 
-        if (isNaN(views)) {
-            resultDiv.innerHTML = "<p style='color:orange'>Lütfen sayı girin.</p>";
-            return;
-        }
+        if (!views) { res.innerHTML = "<p style='color:orange; font-size:1.2rem'>Lütfen sayı girin.</p>"; return; }
 
-        const followersCount = Math.round((fPercent / 100) * views) || 0;
-        const nonFollowersCount = Math.round((nfPercent / 100) * views) || 0;
+        const f = Math.round((fPercent / 100) * views) || 0;
+        const nf = Math.round((nfPercent / 100) * views) || 0;
 
-        resultDiv.innerHTML = `
-            <div class="result-item">Takipçiler: <span class="count">${followersCount}</span></div>
-            <div class="result-item">Takipçi Olmayan: <span class="count">${nonFollowersCount}</span></div>
-            <div class="info">Sonuçlar yuvarlanmıştır.</div>
+        res.innerHTML = `
+            <div class="result-item">Takipçiler: <span class="count">${f}</span></div>
+            <div class="result-item">Takipçi Olmayan: <span class="count">${nf}</span></div>
         `;
     }
 </script>
